@@ -58,7 +58,6 @@ exports.getOneSauce = (req, res) => {
         (sauce) => {
             if(!sauce)
                 return res.status(404).send(new Error('Sauce not found!'));
-            sauce.imageUrl = req.protocol + '://' +req.get('host') + '/images/' + sauce.imageUrl;
             res.status(200).json(sauce);
         }
     ).catch(() => {res.status(500).send(new Error('Database Error!'))})
