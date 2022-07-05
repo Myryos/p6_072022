@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
     try {
-        const token = req.headers.authorizations.split(' ')[1];
+        const token = req.headers.authorization.split(' ')[1];
         const decodeToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
         const userId = decodeToken.userId;
         req.auth = {
@@ -11,6 +11,6 @@ module.exports = (req, res, next) => {
         next();
     } catch(error)
     {
-        res.status(401).json({error});
+        res.status(401).json({error}, console.log(error));
     }
 }

@@ -100,7 +100,7 @@ export class SauceFormComponent implements OnInit {
         tap(({ message }) => {
           console.log(message);
           this.loading = false;
-          this.router.navigate(['/sauces']);
+          this.router.navigate(['api/sauces']);
         }),
         catchError(error => {
           console.error(error);
@@ -114,7 +114,7 @@ export class SauceFormComponent implements OnInit {
         tap(({ message }) => {
           console.log(message);
           this.loading = false;
-          this.router.navigate(['/sauces']);
+          this.router.navigate(['api/sauces/']);
         }),
         catchError(error => {
           console.error(error);

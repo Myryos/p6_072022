@@ -8,16 +8,13 @@ const userRoutes = require('./routes/user.js')
 const path = require('path');
 
 const app = express();
-
-app.use(express.json());
-
-mongoose.connect('mongodb+srv://Myryos:<Gprspvqc1>@cluster0.eaxlpr8.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://Myryos:VXx8uypLsGSyvnj5@cluster0.n4qvajh.mongodb.net/?retryWrites=true&w=majority',
 {
-    userNewUrlParser : true,
-    useUnifiedTopology : true
+    useUnifiedTopology: true
 })
 .then(() => console.log("Connexiion reussi"))
-.catch(() => console.log("Connexion echouer"))
+.catch((error) => console.log("Connexion echouer " + error))
+app.use(express.json());
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -28,6 +25,6 @@ app.use((req, res, next) => {
 
 app.use('/api/sauces', saucesRoutes);
 app.use('/api/auth', userRoutes);
-app.user('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;
