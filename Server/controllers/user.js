@@ -14,7 +14,7 @@ exports.signup = (req, res) => {
                 .then(() => res.status(201).json({message: 'Utilisateur cree !'}))
                 .catch(error => res.status(400).json({error}));
         })
-        .catch(error => res.status(500).json(console.log({error})))
+        .catch(error => res.status(400).json(console.log({error})))
 };
 
 exports.login = (req, res) => {
@@ -37,7 +37,7 @@ exports.login = (req, res) => {
                         )
                     })
                 })
-                .catch(error => res.status(500).json({error}));
+                .catch(error => res.status(400).json({error}));
         })
-        .catch(error => res.status(500).json({error}));
+        .catch(error => res.status(400).json({error}));
 };
