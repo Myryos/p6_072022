@@ -8,7 +8,7 @@ const userRoutes = require('./routes/user.js')
 const path = require('path');
 
 const app = express();
-mongoose.connect('mongodb+srv://Myryos:VXx8uypLsGSyvnj5@cluster0.n4qvajh.mongodb.net/?retryWrites=true&w=majority', //User et Mdp devraiis etre dans une variable d'environement
+mongoose.connect('mongodb+srv://Myryos:VXx8uypLsGSyvnj5@cluster0.n4qvajh.mongodb.net/?retryWrites=true&w=majority', //User et Mdp devrais etre dans une variable d'environement
 {
     useUnifiedTopology: true
 })

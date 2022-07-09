@@ -35,7 +35,7 @@ const errorHandler = error => {
     }
 }
 
-// Pour plus de securite voir pour activer le https et ceret avec certBot
+// Pour plus de securite voir pour activer le https et cert avec certBot
 const server = http.createServer(app);
 
 server.on('error', errorHandler);

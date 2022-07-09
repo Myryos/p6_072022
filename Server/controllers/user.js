@@ -26,7 +26,7 @@ exports.login = (req, res) => {
                 .then(valid => {
                     if(!valid)
                     {
-                        return resourceUsage.status(401).json({message : 'Paire login / mot de passe incorrecte'});
+                        res.status(401).json({message : 'Paire login / mot de passe incorrecte'});
                     }
                     res.status(200).json({
                         userId: user._id,

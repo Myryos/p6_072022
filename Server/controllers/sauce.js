@@ -115,8 +115,6 @@ exports.getAllSauces = (req, res) => {
 exports.getOneSauce = (req, res) => {
     Sauce.findById(req.params.id).then(
         (sauce) => {
-            /*if(!sauce)
-                return res.status(404).send(new Error('Sauce not found!'));*/
             res.status(200).json(sauce);
         }
     ).catch( (error) => {
@@ -131,11 +129,31 @@ exports.getOneSauce = (req, res) => {
 */ 
 
 exports.modifyOneSauce = (req, res) => {
-    //sauce = Sauce.findById(req.params.id)
-    Sauce.updateOne({_id : req.params.id, userId: req.auth.userId}, {...req.body, _id: req.params.id})
-    .then(() => 
-    {res.status(200).json({message: 'Sauce modifier'})})
-    .catch((error) => {res.status(400).json({error})})
+   const sauceObjet = req.file ? {
+        ...JSON.parse(req.body.sauce),
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+   } : {...req.body};
+
+   delete sauceObjet._userId
+   Sauce.findOne({_id: req.params.id})
+   .then(sauce => {
+    const fn = sauce.imageUrl.split('/images/')[1];
+    fs.unlink(`images/${fn}`, () => 
+    {
+        Sauce.updateOne({_id : req.params.id, userId: req.auth.userId}, {...sauceObjet, _id: req.params.id})
+        .then(() => 
+        {
+            res.status(200).json({message: 'Sauce modifier'})
+        })
+        .catch((error) => 
+        {
+            res.status(401).json({error})
+        })
+    })
+
+})
+.catch(() => {
+    res.status(404).json({message: "Je ne trouve pas l'objets"})})
 }
 
 // LES ROUTES DELETE
@@ -149,13 +167,13 @@ exports.deleteOneSauce = (req, res) => {
     Sauce.findOne({_id: req.params.id})
     .then(sauce => {
         if(sauce.userId != req.auth.userId)
-            return res.status(400).json({message: "Not Authorized"});
+            return res.status(403).json({message: "Not Authorized"});
         else
         {
             const filename = sauce.imageUrl.split('/images/')[1];
             fs.unlink(`images/${filename}`, () => {
                 Sauce.deleteOne({_id: req.params.id})
-                .then(() => {res.status(204).json({message: 'Sauce Supprime'})})
+                .then(() => {res.status(200).json({message: 'Sauce Supprime'})})
                 .catch((error) => {res.status(401).json({error})})
             })
         }
@@ -163,5 +181,3 @@ exports.deleteOneSauce = (req, res) => {
     .catch(error => {res.status(500).json({error})});
     
 }
-
-//exports.deleteSauces = (req, res) => {} //Suprimme des sauces
