@@ -1,3 +1,7 @@
 /Server/images/*.png
 /Server/images/*.jpg
 /Server/images/*.jpeg
+
+/Server/.env
+
+/Server/logs/*.log
